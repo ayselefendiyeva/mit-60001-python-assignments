@@ -1,0 +1,28 @@
+#total_cost is the cost of your dream home.
+total_cost = float(input("Enter the cost of your dream home:"))
+
+#portion_down_payment is money you have to save for down payment. It will be taken as 25%.
+portion_down_payment = total_cost / 4
+print(portion_down_payment)
+
+#current_savings is money you have saved. You start with no money.
+current_savings = float(input("Enter your current savings:"))
+
+#You invest yoor money with annual return.
+r = float(input("Enter your annual return in decimal:"))
+
+#This part is focused on salary and savings from it.
+annual_salary = float(input("Enter your annual salary:"))
+monthly_salary = annual_salary / 12
+portion_saved = float(input("Enter money you save up from each monthly salary in decimal:"))
+monthly_salary_savings = monthly_salary * portion_saved
+
+#The cycle is necessary to count the savings' dynamics.
+months = 0
+while current_savings < portion_down_payment:
+	months += 1
+	current_savings += current_savings * r / 12
+	current_savings += monthly_salary_savings
+	
+#Now let's calculate how many months you will need to save up for down payment.
+print(f"You'll have to save {months} months for down payment.")
