@@ -1,0 +1,48 @@
+#total_cost is the cost of your dream home.
+total_cost = float(input("Enter the cost of your dream home:"))
+
+#portion_down_payment is the portion of money necessary for down payment. It will be taken as 25%.
+portion_down_payment = total_cost / 4
+print(portion_down_payment)
+
+#You invest your money with annual return.
+savings = float(input("Enter your money for investment:"))
+r = float(input("Enter your annual return in decimal for investment:"))
+
+#This part is focused on salary.
+starting_salary = float(input("Enter your starting salary:"))
+semi_annual_raise = float(input("Enter your semi-annual raise in decimal:"))
+
+#We should calculate saving rate (how much we should save up per month) to achieve the sum of the down payment within 36 months. 
+##We have to use a binary search for this purpose.
+low = 0
+high = 10000
+possible = False
+
+while low <= high:
+	guess = (low + high) // 2
+	salary_savings = guess / 10000
+	current_savings = savings
+	current_salary = starting_salary / 12
+	for months in range(0,36):
+		months += 1
+		current_savings += current_salary * salary_savings 
+		current_savings += current_savings * r / 12
+		if months % 6 == 0:
+			current_salary += current_salary * semi_annual_raise 
+		else:
+			current_salary += 0
+	if current_savings > portion_down_payment:
+		high = guess - 1
+	elif current_savings < portion_down_payment:
+		low = guess + 1
+	else:
+		break
+
+#We have to check if it's possible to save so much money within 36 months.				
+if current_savings >= portion_down_payment:
+	possible = True
+	print(f"You have to save {salary_savings * 100} % per months to save enough money within 36 months.")
+else:
+	possible = False
+	print("Sorry, you have to earn more.")
